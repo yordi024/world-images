@@ -31,7 +31,7 @@ import { Globe2, Moon, Sun } from 'lucide-vue-next'
 const menu = [
   {
     name: 'Home',
-    url: '/home',
+    url: '/',
     route: 'home',
   },
   {
