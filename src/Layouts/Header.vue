@@ -17,7 +17,18 @@
           <Sun v-if="isDark" class="h-5" />
           <Moon v-else class="h-5" />
         </Button>
-        <div class="text-sm font-medium transition-colors text-primary">Admin</div>
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            ><div class="text-sm font-medium transition-colors text-primary">
+              Admin
+            </div></DropdownMenuTrigger
+          >
+          <DropdownMenuContent>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem @click="logout">Log Out</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   </div>
@@ -27,6 +38,15 @@ import { RouterLink } from 'vue-router'
 import { Button } from '@/components/ui/button'
 import { useDark, useToggle } from '@vueuse/core/index.cjs'
 import { Globe2, Moon, Sun } from 'lucide-vue-next'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { useAuthStore } from '@/stores'
 
 const menu = [
   {
@@ -43,6 +63,8 @@ const menu = [
 
 const isDark = useDark()
 const toggleDark = useToggle(isDark)
+
+const { logout } = useAuthStore()
 </script>
 <style>
 a.router-link-active {
