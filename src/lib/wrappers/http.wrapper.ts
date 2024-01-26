@@ -1,4 +1,4 @@
-import type { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios'
+import type { AxiosInstance, InternalAxiosRequestConfig } from 'axios'
 import axios from 'axios'
 import { TOKEN_KEY } from '../constants'
 
