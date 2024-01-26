@@ -2,7 +2,7 @@
   <div class="flex flex-col">
     <Header />
 
-    <section class="flex-1 space-y-4 p-8 pt-6">
+    <section class="flex-1 space-y-4 p-8 pt-6 container">
       <router-view></router-view>
     </section>
   </div>
