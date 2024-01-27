@@ -1,8 +1,17 @@
 <template>
+  <pre>{{ race }}</pre>
   <div class="flex flex-col items-center justify-center">
     <Globe2 class="text-primary h-20 w-20 mb-5" />
 
-    <form class="w-full max-w-3xl mb-10" @submit.prevent="handleSubmit">
+    <div v-if="race?.status === RACE_NO_STARTED" class="w-full max-w-3xl mb-10 text-center">
+      <h3 class="text-2xl mb-2">World Images Race</h3>
+      <p class="text-muted-foreground text-lg mb-5">
+        Start the world images race and participate in the competition for the Alegra grand prize.
+      </p>
+      <Button @click="startRace"> Start Race </Button>
+    </div>
+
+    <form v-else class="w-full max-w-3xl mb-10" @submit.prevent="handleSearch">
       <label for="default-search" class="mb-2 text-sm font-medium sr-only">Search</label>
       <div class="relative">
         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -27,6 +36,7 @@
           type="search"
           id="default-search"
           class="p-4 ps-10 text-sm h-14"
+          autocomplete="off"
           placeholder="Search images..."
           required
         />
@@ -39,38 +49,25 @@
         </Button>
       </div>
     </form>
+
     <Loader2 v-if="isLoading" class="text-primary h-20 w-20 animate-spin" />
-    <ResultContainer v-if="searchResult?.length" :images="searchResult" />
+    <ResultContainer v-if="searchResult?.length" :result="searchResult" />
   </div>
 </template>
 <script setup lang="ts">
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Globe2, Loader2 } from 'lucide-vue-next'
-import HttpClient from '@/lib/wrappers/pixabay.wrapper'
 import { ResultContainer } from '@/components/search-result'
-import type { ImageResult } from '@/lib/types'
-import { ref } from 'vue'
+import { useSearch, useRace } from '@/lib/composables'
+import { RACE_NO_STARTED } from '@/lib/constants'
+import { onBeforeMount } from 'vue'
 
-const searchInput = ref('')
+const { searchInput, searchResult, isLoading, handleSearch } = useSearch()
 
-const searchResult = ref<ImageResult[]>()
+const { race, startRace, fetchSellers } = useRace()
 
-const isLoading = ref<boolean | undefined>()
-
-async function handleSubmit() {
-  isLoading.value = true
-
-  let query = `/?key=${import.meta.env.VITE_PIXABAY_API_KEY}`
-  query += searchInput.value ? `&q=${searchInput.value}` : ''
-
-  try {
-    const respone = await HttpClient.get(query)
-    searchResult.value = respone.data.hits
-  } catch (error) {
-    console.log(error)
-  } finally {
-    isLoading.value = false
-  }
-}
+onBeforeMount(async () => {
+  await fetchSellers()
+})
 </script>
