@@ -36,3 +36,58 @@ export interface Race {
   totalPoints: number
   scoreboard: Scoreboard
 }
+
+export interface Winner {
+  seller: Seller
+  score: number
+  totalPoints: number
+}
+
+export interface InvoicePrize {
+  id: string
+  date: string
+  dueDate: string
+  datetime: string
+  observations?: string
+  anotation?: string
+  termsConditions: string
+  status: string
+  client: Client
+  numberTemplate: NumberTemplate
+  subtotal: number
+  total: number
+  decimalPrecision: string
+  seller: Seller
+  payments: Payment[]
+  items: InvoiceItem[]
+}
+
+export interface Client {
+  id: string
+  name: string
+  identification: string
+}
+
+export interface InvoiceItem {
+  name: string
+  description?: string
+  price: number
+  discount: number
+  reference?: string
+  quantity: number
+  id: number
+  unit: string
+  itemType: string
+  tax: any[]
+  total: number
+}
+
+export interface NumberTemplate {
+  id: string
+  prefix: any
+  number: string
+  text: any
+  documentType: string
+  fullNumber: string
+  formattedNumber: string
+}

@@ -8,7 +8,7 @@
     <div
       class="flex flex-col p-3 justify-between items-end absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/20"
     >
-      <Button size="icon" variant="ghost" @click="chooseSellerImage(resultItem.seller)"
+      <Button size="icon" variant="ghost" @click="handleFavoriteImage(resultItem.seller)"
         ><Heart
       /></Button>
       <div class="w-full">
@@ -28,5 +28,5 @@ const { resultItem } = defineProps<{
   resultItem: SellerImage
 }>()
 
-const { chooseSellerImage } = useRace()
+const { handleFavoriteImage } = useRace()
 </script>
