@@ -9,11 +9,27 @@ import {
   PRICE_KEY,
 } from '@/lib/constants'
 import type { Seller, Race, InvoicePrize } from '@/lib/types'
+import { computed } from 'vue'
 
 export const useRaceStore = defineStore('race', () => {
-  const race = useStorage<Race>(RACE_KEY, { status: 'no-started', totalPoints: 0, scoreboard: {} })
+  const race = useStorage<Race>(RACE_KEY, {
+    status: RACE_NO_STARTED,
+    totalPoints: 0,
+    scoreboard: {},
+  })
   const prize = useStorage<InvoicePrize>(PRICE_KEY, null)
   const sellers = useStorage<Seller[]>(PARTICIPANTS_KEY, [])
+
+  const sellerScoreboard = computed(() => {
+    return sellers.value
+      .map((seller) => {
+        return {
+          seller,
+          points: race.value.scoreboard[seller.id] || 0,
+        }
+      })
+      .sort((a, b) => b.points - a.points)
+  })
 
   async function fetchSellers() {
     if (race.value.status !== RACE_NO_STARTED) return
@@ -98,9 +114,18 @@ export const useRaceStore = defineStore('race', () => {
 
   function startRace() {
     race.value.status = RACE_STARTED
+    race.value.totalPoints = 0
+    race.value.scoreboard = {}
     for (const seller of sellers.value) {
       race.value.scoreboard[seller.id] = 0
     }
+  }
+
+  function resetRaceState() {
+    race.value.status = RACE_NO_STARTED
+    race.value.totalPoints = 0
+    race.value.scoreboard = {}
+    prize.value = null
   }
 
   function finishRace() {
@@ -124,8 +149,10 @@ export const useRaceStore = defineStore('race', () => {
   return {
     race,
     sellers,
+    sellerScoreboard,
     fetchSellers,
     startRace,
+    resetRaceState,
     finishRace,
     addPoints,
     getSellerById,

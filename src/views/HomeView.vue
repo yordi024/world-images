@@ -12,18 +12,25 @@
       <ResultContainer v-if="searchResult?.length" :result="searchResult" />
     </template>
   </div>
+
+  <teleport v-if="isMounted && race.status !== RACE_NO_STARTED" to="#header-action"
+    ><Scoreboard />
+  </teleport>
 </template>
 <script setup lang="ts">
 import { Loader2 } from 'lucide-vue-next'
 import { ResultContainer, SearchForm } from '@/components/search-result'
-import { NewRaceState, CompletedRaceState } from '@/components/race'
+import { NewRaceState, CompletedRaceState, Scoreboard } from '@/components/race'
 import { useSearch, useRace } from '@/lib/composables'
 import { onBeforeMount } from 'vue'
 import { RACE_COMPLETED, RACE_NO_STARTED, RACE_STARTED } from '@/lib/constants'
+import { useMounted } from '@vueuse/core'
 
 const { searchResult, isLoading } = useSearch()
 
 const { race, fetchSellers } = useRace()
+
+const isMounted = useMounted()
 
 onBeforeMount(async () => {
   await fetchSellers()

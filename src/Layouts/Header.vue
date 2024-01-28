@@ -4,6 +4,7 @@
       <RouterLink to="/" class="mr-5 font-bold text-lg text-primary"><Globe2 /></RouterLink>
 
       <div class="ml-auto flex items-center space-x-4">
+        <div id="header-action"></div>
         <Button @click="toggleDark()" class="px-2" size="sm" variant="ghost">
           <Sun v-if="isDark" class="h-5" />
           <Moon v-else class="h-5" />
@@ -44,8 +45,3 @@ const toggleDark = useToggle(isDark)
 
 const { logout } = useAuthStore()
 </script>
-<style>
-a.router-link-active {
-  @apply text-primary;
-}
-</style>

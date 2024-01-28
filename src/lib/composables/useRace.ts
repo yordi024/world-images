@@ -1,16 +1,24 @@
 import { useRaceStore } from '@/stores/race.store'
 import { storeToRefs } from 'pinia'
-import type { Seller, Winner } from '../types'
+import type { Seller } from '../types'
 import { RACE_LIMIT_POINTS, RACE_LIKE_POINTS, RACE_COMPLETED } from '../constants'
 import { useSearch } from '.'
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 
 export const useRace = function () {
   const raceStore = useRaceStore()
 
-  const { startRace, finishRace, fetchSellers, addPoints, getSellerById, generaTePrize } = raceStore
+  const {
+    startRace,
+    finishRace,
+    fetchSellers,
+    addPoints,
+    getSellerById,
+    generaTePrize,
+    resetRaceState,
+  } = raceStore
 
-  const { race } = storeToRefs(raceStore)
+  const { race, sellerScoreboard } = storeToRefs(raceStore)
 
   const { clearResult } = useSearch()
 
@@ -57,8 +65,10 @@ export const useRace = function () {
     race,
     firstPlaceScore,
     startRace,
+    resetRaceState,
     fetchSellers,
     handleFavoriteImage,
     handleAwardPrize,
+    sellerScoreboard,
   }
 }

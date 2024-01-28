@@ -1,32 +1,18 @@
 <template>
   <div class="m-24 w-full max-w-3xl mb-10 text-center">
-    <svg
-      class="inline-block text-primary h-24 w-24"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M14 18V16H10V18L9 20H15L14 18Z" fill="currentColor" />
-      <path
-        opacity="0.3"
-        d="M20 4H17V3C17 2.4 16.6 2 16 2H8C7.4 2 7 2.4 7 3V4H4C3.4 4 3 4.4 3 5V9C3 11.2 4.8 13 7 13C8.2 14.2 8.8 14.8 10 16H14C15.2 14.8 15.8 14.2 17 13C19.2 13 21 11.2 21 9V5C21 4.4 20.6 4 20 4ZM5 9V6H7V11C5.9 11 5 10.1 5 9ZM19 9C19 10.1 18.1 11 17 11V6H19V9ZM17 21V22H7V21C7 20.4 7.4 20 8 20H16C16.6 20 17 20.4 17 21ZM10 9C9.4 9 9 8.6 9 8V5C9 4.4 9.4 4 10 4C10.6 4 11 4.4 11 5V8C11 8.6 10.6 9 10 9ZM10 13C9.4 13 9 12.6 9 12V11C9 10.4 9.4 10 10 10C10.6 10 11 10.4 11 11V12C11 12.6 10.6 13 10 13Z"
-        fill="currentColor"
-      />
-    </svg>
+    <Trophy class="inline-block text-primary h-24 w-24" />
     <h3 class="text-2xl mb-2">World Images Race</h3>
     <p class="text-muted-foreground text-lg mb-5">
       The awesome Race has finish, give the winer the big prize!
     </p>
     <div class="flex items-center justify-center mb-5 text-2xl space-x-3 font-medium">
-      <Medal class="text-primary mt-1" />
+      <Medal1 class="h-8 w-8" />
       <h3 class="">{{ firstPlaceScore?.seller?.name }}</h3>
       <span class="text-primary">{{ firstPlaceScore?.totalPoints }} points</span>
     </div>
     <!-- <Button @click="handleAwardPrize"> Award the prize </Button> -->
     <div class="space-x-3">
-      <Button variant="secondary"> Start Over </Button>
+      <Button @click="resetRaceState" variant="secondary"> Start Over </Button>
       <Button @click="showPrice = true"> See Prize </Button>
     </div>
   </div>
@@ -36,11 +22,11 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button'
 import { useRace } from '@/lib/composables'
-import { Medal } from 'lucide-vue-next'
+import { Medal1, Trophy } from '@/components/icons'
 import PrizeModal from './PrizeModal.vue'
 import { ref } from 'vue'
 
 const showPrice = ref(false)
 
-const { firstPlaceScore, handleAwardPrize } = useRace()
+const { firstPlaceScore, resetRaceState, handleAwardPrize } = useRace()
 </script>
