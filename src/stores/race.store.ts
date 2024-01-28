@@ -7,6 +7,8 @@ import {
   RACE_COMPLETED,
   RACE_NO_STARTED,
   PRICE_KEY,
+  INVOICE_CLIENT_ID,
+  INVOICE_ITEM_ID,
 } from '@/lib/constants'
 import type { Seller, Race, InvoicePrize } from '@/lib/types'
 import { computed } from 'vue'
@@ -18,8 +20,10 @@ export const useRaceStore = defineStore('race', () => {
     totalPoints: 0,
     scoreboard: {},
   })
-  const prize = useStorage<InvoicePrize>(PRICE_KEY, null)
+  const prize = useStorage<InvoicePrize | any>(PRICE_KEY, {})
   const sellers = useStorage<Seller[]>(PARTICIPANTS_KEY, [])
+
+  const httpService = new RaceApiService()
 
   const sellerScoreboard = computed(() => {
     return sellers.value
@@ -37,9 +41,7 @@ export const useRaceStore = defineStore('race', () => {
 
     sellers.value = []
 
-    const service = new RaceApiService()
-
-    const data = await service.getSellers()
+    const data = await httpService.getSellers()
 
     sellers.value = [...data]
   }
@@ -73,9 +75,26 @@ export const useRaceStore = defineStore('race', () => {
     return sellers.value.find((seller) => seller.id === id)
   }
 
-  async function generaTePrize() {
-    await new Promise((resolve) => setTimeout(resolve, 3000))
+  async function generaTePrize(raceWinner: Seller) {
+    if (race.value.status !== RACE_COMPLETED) return
+
     prize.value = {}
+
+    const data = await httpService.createInvoice({
+      client: INVOICE_CLIENT_ID,
+      seller: raceWinner.id,
+      items: [
+        {
+          id: INVOICE_ITEM_ID,
+          price: 1,
+          quantity: race.value.totalPoints,
+        },
+      ],
+    })
+
+    if (!data) return
+
+    prize.value = { ...data }
   }
 
   function clearState() {
@@ -88,6 +107,7 @@ export const useRaceStore = defineStore('race', () => {
     race,
     sellers,
     sellerScoreboard,
+    prize,
     fetchSellers,
     startRace,
     resetRaceState,

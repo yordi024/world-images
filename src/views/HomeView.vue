@@ -28,12 +28,11 @@ import { useMounted } from '@vueuse/core'
 
 const { searchResult, isLoading } = useSearch()
 
-const { race, fetchSellers, resetRaceState } = useRace()
+const { race, fetchSellers } = useRace()
 
 const isMounted = useMounted()
 
 onBeforeMount(async () => {
-  resetRaceState()
   await fetchSellers()
 })
 </script>

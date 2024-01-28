@@ -38,7 +38,7 @@ export interface Race {
 }
 
 export interface Winner {
-  seller: Seller
+  seller?: Seller
   score: number
   totalPoints: number
 }
@@ -58,7 +58,6 @@ export interface InvoicePrize {
   total: number
   decimalPrecision: string
   seller: Seller
-  payments: Payment[]
   items: InvoiceItem[]
 }
 

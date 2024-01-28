@@ -1,9 +1,9 @@
 import { useRaceStore } from '@/stores/race.store'
 import { storeToRefs } from 'pinia'
-import type { Seller } from '../types'
+import type { Seller, Winner } from '../types'
 import { RACE_LIMIT_POINTS, RACE_LIKE_POINTS, RACE_COMPLETED } from '../constants'
 import { useSearch } from '.'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 export const useRace = function () {
   const raceStore = useRaceStore()
@@ -18,12 +18,14 @@ export const useRace = function () {
     resetRaceState,
   } = raceStore
 
-  const { race, sellers, sellerScoreboard } = storeToRefs(raceStore)
+  const { race, sellers, sellerScoreboard, prize } = storeToRefs(raceStore)
 
   const { clearResult } = useSearch()
 
-  const firstPlaceScore = computed(() => {
-    if (race.value.status !== RACE_COMPLETED) return undefined
+  const generatingInvoice = ref(false)
+
+  const firstPlaceScore = computed<Winner | null>(() => {
+    if (race.value.status !== RACE_COMPLETED) return null
 
     const firstPlace = getFirstPlace()
 
@@ -57,14 +59,22 @@ export const useRace = function () {
     }
   }
 
-  function handleAwardPrize() {
-    generaTePrize()
+  async function handleAwardPrize() {
+    if (!firstPlaceScore.value || !firstPlaceScore.value?.seller?.id) return
+
+    generatingInvoice.value = true
+
+    await generaTePrize(firstPlaceScore.value.seller)
+
+    generatingInvoice.value = false
   }
 
   return {
     race,
     sellers,
     firstPlaceScore,
+    prize,
+    generatingInvoice,
     startRace,
     resetRaceState,
     fetchSellers,
