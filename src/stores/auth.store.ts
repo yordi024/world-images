@@ -4,8 +4,11 @@ import router from '@/router'
 import { useStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { useRaceStore } from './race.store'
 
 export const useAuthStore = defineStore('auth', () => {
+  const { clearState } = useRaceStore()
+
   const isAuth = ref(false)
 
   const accessToken = useStorage(TOKEN_KEY, '')
@@ -17,19 +20,21 @@ export const useAuthStore = defineStore('auth', () => {
 
     const { token } = await service.login(creedentials)
 
-    accessToken.value = token
+    accessToken.value = btoa(`${creedentials.email}:${token}`)
 
     isAuth.value = true
 
     router.push('/')
   }
 
-  function logout() {
+  async function logout() {
     accessToken.value = ''
 
     isAuth.value = false
 
-    router.push('/login')
+    await router.push('/login')
+
+    clearState()
   }
 
   return {

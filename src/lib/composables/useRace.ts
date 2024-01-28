@@ -18,7 +18,7 @@ export const useRace = function () {
     resetRaceState,
   } = raceStore
 
-  const { race, sellerScoreboard } = storeToRefs(raceStore)
+  const { race, sellers, sellerScoreboard } = storeToRefs(raceStore)
 
   const { clearResult } = useSearch()
 
@@ -63,6 +63,7 @@ export const useRace = function () {
 
   return {
     race,
+    sellers,
     firstPlaceScore,
     startRace,
     resetRaceState,

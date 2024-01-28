@@ -5,7 +5,7 @@
     <p class="text-muted-foreground text-lg mb-5">
       Start the world images race and participate in the competition for the Alegra grand prize.
     </p>
-    <Button @click="startRace"> Start Race </Button>
+    <Button :disabled="!sellers.length" @click="startRace"> Start Race </Button>
   </div>
 </template>
 <script setup lang="ts">
@@ -13,5 +13,5 @@ import { Button } from '@/components/ui/button'
 import { useRace } from '@/lib/composables'
 import { Globe2 } from 'lucide-vue-next'
 
-const { startRace } = useRace()
+const { sellers, startRace } = useRace()
 </script>

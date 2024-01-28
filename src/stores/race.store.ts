@@ -10,6 +10,7 @@ import {
 } from '@/lib/constants'
 import type { Seller, Race, InvoicePrize } from '@/lib/types'
 import { computed } from 'vue'
+import { RaceApiService } from '@/lib/api/race.service'
 
 export const useRaceStore = defineStore('race', () => {
   const race = useStorage<Race>(RACE_KEY, {
@@ -36,80 +37,11 @@ export const useRaceStore = defineStore('race', () => {
 
     sellers.value = []
 
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    const service = new RaceApiService()
 
-    sellers.value.push(
-      {
-        id: 1,
-        name: 'Pedro Perez',
-        identification: null,
-        observations: null,
-        status: 'active',
-      },
-      {
-        id: 2,
-        name: 'Miguel Perez',
-        identification: null,
-        observations: null,
-        status: 'active',
-      },
-      {
-        id: 3,
-        name: 'Sofia Martínez',
-        identification: null,
-        observations: null,
-        status: 'active',
-      },
-      {
-        id: 4,
-        name: 'Alejandro Herrera',
-        identification: null,
-        observations: null,
-        status: 'active',
-      },
-      {
-        id: 5,
-        name: 'Valentina Rodríguez',
-        identification: null,
-        observations: null,
-        status: 'active',
-      },
-      {
-        id: 6,
-        name: 'Juan Carlos García',
-        identification: null,
-        observations: null,
-        status: 'active',
-      },
-      {
-        id: 7,
-        name: 'Carolina López',
-        identification: null,
-        observations: null,
-        status: 'active',
-      },
-      {
-        id: 8,
-        name: 'Andrés Fernández',
-        identification: null,
-        observations: null,
-        status: 'active',
-      },
-      {
-        id: 9,
-        name: 'Isabella Pérez',
-        identification: null,
-        observations: null,
-        status: 'active',
-      },
-      {
-        id: 10,
-        name: 'Gabriel Torres',
-        identification: null,
-        observations: null,
-        status: 'active',
-      },
-    )
+    const data = await service.getSellers()
+
+    sellers.value = [...data]
   }
 
   function startRace() {
@@ -146,6 +78,12 @@ export const useRaceStore = defineStore('race', () => {
     prize.value = {}
   }
 
+  function clearState() {
+    sellers.value = []
+    race.value = null
+    prize.value = null
+  }
+
   return {
     race,
     sellers,
@@ -157,5 +95,6 @@ export const useRaceStore = defineStore('race', () => {
     addPoints,
     getSellerById,
     generaTePrize,
+    clearState,
   }
 })

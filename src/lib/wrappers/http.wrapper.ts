@@ -22,6 +22,6 @@ function requestInterceptor(config: InternalAxiosRequestConfig): InternalAxiosRe
   return config
 }
 
-axios.interceptors.request.use(requestInterceptor)
+HttpClient.interceptors.request.use(requestInterceptor)
 
 export default HttpClient

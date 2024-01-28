@@ -1,6 +1,6 @@
 <template>
   <!-- <pre>{{ race }}</pre> -->
-  <div class="flex flex-col items-center justify-center">
+  <div v-if="race" class="flex flex-col items-center justify-center">
     <NewRaceState v-if="race.status === RACE_NO_STARTED" />
 
     <CompletedRaceState v-if="race.status === RACE_COMPLETED" />
@@ -13,7 +13,7 @@
     </template>
   </div>
 
-  <teleport v-if="isMounted && race.status !== RACE_NO_STARTED" to="#header-action"
+  <teleport v-if="isMounted && race && race.status !== RACE_NO_STARTED" to="#header-action"
     ><Scoreboard />
   </teleport>
 </template>
@@ -28,11 +28,12 @@ import { useMounted } from '@vueuse/core'
 
 const { searchResult, isLoading } = useSearch()
 
-const { race, fetchSellers } = useRace()
+const { race, fetchSellers, resetRaceState } = useRace()
 
 const isMounted = useMounted()
 
 onBeforeMount(async () => {
+  resetRaceState()
   await fetchSellers()
 })
 </script>
