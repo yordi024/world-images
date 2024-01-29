@@ -35,6 +35,6 @@ const showPrice = ref(false)
 const { prize, firstPlaceScore, generatingInvoice, resetRaceState, handleAwardPrize } = useRace()
 
 const isInvoiceGenerated = computed(() => {
-  return Object.values(prize.value).length
+  return !!(prize.value && Object.values(prize.value).length)
 })
 </script>

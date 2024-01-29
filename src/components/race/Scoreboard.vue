@@ -8,7 +8,7 @@
       </DialogHeader>
       <ul class="block divide-y-4 divide-gray-200 h-22 overflow-hidden">
         <li v-for="(score, key) in sellerScoreboard" :key="key" class="flex items-center my-2">
-          <template v-if="score.points">
+          <template v-if="score.points && key + 1 <= 3">
             <Medal1 class="w-8 h-8 mr-5" v-if="key + 1 === 1" />
             <Medal2 class="w-8 h-8 mr-5" v-else-if="key + 1 === 2" />
             <Medal3 class="w-8 h-8 mr-5" v-else-if="key + 1 === 3" />

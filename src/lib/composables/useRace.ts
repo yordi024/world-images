@@ -4,6 +4,7 @@ import type { Seller, Winner } from '../types'
 import { RACE_LIMIT_POINTS, RACE_LIKE_POINTS, RACE_COMPLETED } from '../constants'
 import { useSearch } from '.'
 import { computed, ref } from 'vue'
+import { toast } from 'vue-sonner'
 
 export const useRace = function () {
   const raceStore = useRaceStore()
@@ -39,9 +40,7 @@ export const useRace = function () {
   function handleFavoriteImage(seller: Seller) {
     addPoints(seller.id, RACE_LIKE_POINTS)
     clearResult()
-
-    // TODO: Notify the user
-    verifyRaceScores()
+    verifyRaceScores(seller)
   }
 
   function getFirstPlace() {
@@ -51,12 +50,16 @@ export const useRace = function () {
     return sortedScoreboard[0]
   }
 
-  function verifyRaceScores() {
+  function verifyRaceScores(seller: Seller) {
     const firstPlace = getFirstPlace()
 
     if (firstPlace[1] >= RACE_LIMIT_POINTS) {
       finishRace()
+      notifySuccess('The race is over!')
+      return
     }
+
+    notifySuccess('Points added!', `+3 points given to ${seller.name}.`)
   }
 
   async function handleAwardPrize() {
@@ -64,9 +67,18 @@ export const useRace = function () {
 
     generatingInvoice.value = true
 
-    await generaTePrize(firstPlaceScore.value.seller)
+    const { seller } = firstPlaceScore.value
 
+    await generaTePrize(seller)
+    notifySuccess('Invoice Generated!', `The prize for ${seller.name} has been generated.`)
     generatingInvoice.value = false
+  }
+
+  function notifySuccess(title: string, description?: string) {
+    toast.success(title, {
+      description,
+      duration: 5000,
+    })
   }
 
   return {
