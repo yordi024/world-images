@@ -1,6 +1,12 @@
-# World Images
 
-Greatest images race has started.
+# World Images - Vue App
+
+Race between Alegra sellers to win an invoice with all the points accumulated
+
+
+## Demo
+
+https://world-images-xi.vercel.app/
 
 ## Project Setup
 
@@ -31,3 +37,13 @@ npm run test:unit
 ```sh
 npm run lint
 ```
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`VITE_API_URL`: <-- Alegra API
+
+`VITE_PIXABAY_URL`
+
+`VITE_PIXABAY_API_KEY`
+
