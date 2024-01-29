@@ -4,7 +4,9 @@
     <DialogContent class="">
       <DialogHeader>
         <DialogTitle>Race Scoreboard</DialogTitle>
-        <DialogDescription> A seller needs 20 points to win the race. </DialogDescription>
+        <DialogDescription>
+          A seller needs {{ RACE_LIMIT_POINTS }} points to win the race.
+        </DialogDescription>
       </DialogHeader>
       <ul class="block divide-y-4 divide-gray-200 h-22 overflow-hidden">
         <li v-for="(score, key) in sellerScoreboard" :key="key" class="flex items-center my-2">

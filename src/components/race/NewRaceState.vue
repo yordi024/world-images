@@ -35,15 +35,16 @@ import { useRace } from '@/lib/composables'
 import { Globe2 } from 'lucide-vue-next'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { ref } from 'vue'
+import { RACE_LIKE_POINTS, RACE_LIMIT_POINTS } from '@/lib/constants'
 
 const { sellers, startRace } = useRace()
 
 const rules = [
   'Enter a keyword.',
   'Sellers display related images.',
-  'Select your favorite to award 3 points.',
+  `Select your favorite to award ${RACE_LIKE_POINTS} points.`,
   'Sellers accumulate points for each like.',
-  'Race ends when reaching 20 points.',
+  `Race ends when reaching ${RACE_LIMIT_POINTS} points.`,
   'Winner obtains an invoice in Alegra.',
 ]
 
