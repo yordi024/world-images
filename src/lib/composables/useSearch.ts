@@ -8,15 +8,18 @@ const searchInput = ref('')
 
 const searchResult = ref<SellerImage[]>()
 
+const isLoading = ref<boolean | undefined>()
+
 export const useSearch = function () {
   const raceStore = useRaceStore()
 
   const { sellers } = storeToRefs(raceStore)
 
-  const isLoading = ref<boolean | undefined>()
+  const noResults = ref(false)
 
   async function handleSearch() {
     isLoading.value = true
+    noResults.value = false
     searchResult.value = []
 
     let query = `/?key=${import.meta.env.VITE_PIXABAY_API_KEY}&safesearch=true`
@@ -25,6 +28,11 @@ export const useSearch = function () {
 
     try {
       const respone = await HttpClient.get(query)
+
+      if (!respone.data.hits.length) {
+        noResults.value = true
+        return
+      }
 
       for (const [index, seller] of sellers.value.entries()) {
         const image = respone.data.hits[index] as ImageResult
@@ -54,6 +62,7 @@ export const useSearch = function () {
     searchInput,
     searchResult,
     isLoading,
+    noResults,
     handleSearch,
     clearResult,
   }

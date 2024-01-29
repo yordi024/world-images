@@ -10,6 +10,6 @@ import ImageItem from './ImageItem.vue'
 import type { SellerImage } from '@/lib/types'
 
 const { result } = defineProps<{
-  result: SellerImage[]
+  result: SellerImage[] | undefined
 }>()
 </script>

@@ -28,6 +28,9 @@
     Select an image to give the participant {{ RACE_LIKE_POINTS }} points, with a maximum of
     {{ RACE_LIMIT_POINTS }} points to win.
   </p>
+  <p v-if="noResults" class="text-muted-foreground text-lg mb-10">
+    There's no results for this search
+  </p>
 </template>
 <script setup lang="ts">
 import { useSearch } from '@/lib/composables'
@@ -36,5 +39,5 @@ import { Button } from '@/components/ui/button'
 import { Globe2, Search } from 'lucide-vue-next'
 import { RACE_LIKE_POINTS, RACE_LIMIT_POINTS } from '@/lib/constants'
 
-const { searchInput, isLoading, handleSearch, searchResult } = useSearch()
+const { searchInput, isLoading, noResults, handleSearch, searchResult } = useSearch()
 </script>
