@@ -6,7 +6,7 @@
         <DialogDescription> The prize of the winner. </DialogDescription>
       </DialogHeader>
       <div
-        v-if="invoice"
+        v-if="Object.keys(invoice).length"
         class="w-full bg-card border rounded-md shadow-md px-6 py-8 max-w-md mx-auto"
       >
         <h1 class="font-bold text-2xl text-center text-primary">Alegra</h1>
