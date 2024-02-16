@@ -1,5 +1,4 @@
 <template>
-  <!-- <pre>{{ race }}</pre> -->
   <div v-if="race" class="flex flex-col items-center justify-center">
     <NewRaceState v-if="race.status === RACE_NO_STARTED" />
 

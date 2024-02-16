@@ -20,6 +20,8 @@ export const useAuthStore = defineStore('auth', () => {
 
     const { token } = await service.login(creedentials)
 
+    if (!token) throw new Error('Invalid credentials')
+
     accessToken.value = btoa(`${creedentials.email}:${token}`)
 
     isAuth.value = true
