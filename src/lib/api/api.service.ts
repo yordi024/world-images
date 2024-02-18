@@ -12,12 +12,4 @@ export class BaseApiService implements BaseApiServiceInterface {
   post<T = any>(url: string, data?: any): Promise<AxiosResponse<T, any>> {
     return this.client.post(url, data)
   }
-
-  put<T = any>(url: string, data?: any): Promise<AxiosResponse<T, any>> {
-    throw new Error('Method not implemented.')
-  }
-
-  delete<T = any>(url: string): Promise<AxiosResponse<T, any>> {
-    throw new Error('Method not implemented.')
-  }
 }
